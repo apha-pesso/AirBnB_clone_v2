@@ -1,16 +1,33 @@
 #!/usr/bin/python3
-""" City Module for HBNB project """
-from models.base_model import BaseModel, Base
-import sqlalchemy
-from sqlalchemy import Column, String, ForeignKey
+""" State Module for HBNB project """
+from models.base_model import BaseModel
+from models.city import City
+from models.base_model import Base
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
-
-class City(BaseModel, Base):
-    """ The city class, contains state ID and name """
-    __tablename__ = 'cities'
+class State(BaseModel, Base):
+    """ State class """
+    __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-    places = relationship('Place', cascade='delete', backref='cities')
+    # cities = relationship('City')
+    cities = relationship('City', backref='state')
+   # user = relationship("User", back_populates="addresses")
 
+
+    @property
+    def cities(self):
+
+        '''returns the list of City instances with state_id
+            equals the current State.id
+            FileStorage relationship between State and City
+        '''
+        from models import storage
+        related_cities = []
+
+        cities = storage.all(City).items() # gets the entire storage- a dictionary
+        for city in cities.values(): # cities.value returns list of the city objects
+            if city.state_id == self.id: # if the object.state_id == self.id
+                related_cities.append(city) # append to the cities list
+        return related_cities
     # state = relationship('State')
