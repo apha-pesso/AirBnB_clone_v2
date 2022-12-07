@@ -18,3 +18,18 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float)
     longitude = Column(Float)
+
+    @property
+    def cities(self):
+        '''returns the list of Review instances with place_id
+            equals the current Place.id
+            FileStorage relationship between Place and Review
+        '''
+        from models import storage
+        related_reviews = []
+
+        reviews = storage.all(Review).items()
+        for review in reviews.values():
+            if review.place_id == self.id:
+                related_reviews.append(review)
+        return related_reviews
