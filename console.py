@@ -4,6 +4,7 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
+# from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -119,6 +120,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
+        # elif args not in HBNBCommand.classes:
+        # create State name="California" town="state
+        # args = State name="california"
+        # return list of args ["State", name="california", town="state"]
         args = args.split()
         if args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
@@ -126,6 +131,8 @@ class HBNBCommand(cmd.Cmd):
         class_args = args[0]
         new_instance = HBNBCommand.classes[class_args]()
 
+        # print(args[2])
+        kw_args = {}
         d = len(args)
         for j in range(1, d):
             # argd[j] = name="california"
@@ -141,8 +148,12 @@ class HBNBCommand(cmd.Cmd):
                 # setattr(new_instance, param_list[0], p)
             else:
                 p1 = int(param_list[1])
+            # kw_args[param_list[0]] = p1
+
             setattr(new_instance, param_list[0], p1)
-        storage.save()
+
+        storage.new(new_instance)
+        # storage.save()
         print(new_instance.id)
         storage.save()
 
@@ -224,13 +235,21 @@ class HBNBCommand(cmd.Cmd):
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            # for k, v in storage._FileStorage__objects.items():
+            # print("BEfore the for")
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
+                    # if '_sa_instance_state' in v.keys():
+                    # del v["_sa_instance_state"]
+                    # print()
+                    # print(v)
+                    # print()
                     print_list.append(str(v))
+
         else:
-            for k, v in storage._FileStorage__objects.items():
+            # for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
@@ -243,6 +262,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
+        # for k, v in storage.all().items():
         for k, v in storage._FileStorage__objects.items():
             if args == k.split('.')[0]:
                 count += 1
