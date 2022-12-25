@@ -63,5 +63,7 @@ def do_deploy(archive_path):
     def deploy():
         """Execute the functions to create archive and deploy"""
         path = do_pack()
+        if not path:
+            return False
         ret = do_deploy(path)
         return (ret)
