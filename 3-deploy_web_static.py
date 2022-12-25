@@ -2,7 +2,7 @@
 """Fabric script that generates a .tgz archive from
 the contents of the web_static folder
 and uploads and deploy on servers"""
-from fabric.api import local
+from fabric.api import *
 from datetime import datetime
 
 
@@ -60,10 +60,10 @@ def do_deploy(archive_path):
         .format(remote_name))
     return (True)
 
-    def deploy():
-        """Execute the functions to create archive and deploy"""
-        path = do_pack()
-        if not path:
-            return False
-        ret = do_deploy(path)
-        return (ret)
+def deploy():
+    """Execute the functions to create archive and deploy"""
+    path = do_pack()
+    if not path:
+        return False
+    ret = do_deploy(path)
+    return (ret)
