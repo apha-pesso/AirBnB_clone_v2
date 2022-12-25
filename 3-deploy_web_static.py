@@ -60,6 +60,7 @@ def do_deploy(archive_path):
         .format(remote_name))
     return (True)
 
+
 def deploy():
     """Execute the functions to create archive and deploy"""
     path = do_pack()
