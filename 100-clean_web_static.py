@@ -12,6 +12,7 @@ def do_clean(number=0):
     files_ = os.listdir("versions")
     files_.sort(reverse=True)
     present = len(files_)
+    number = int(number)
 
     # if number is greter or equal to present file, do nothing
     if number >= present:
@@ -20,6 +21,8 @@ def do_clean(number=0):
     # If number is 0 or 1, keep only the most recent version of your archive
     if number == 0:
         number = 1
+    else:
+        number = number
     num_del = present - number
     point = -1
     for i in range(num_del):
