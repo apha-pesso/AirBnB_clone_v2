@@ -61,8 +61,7 @@ class FileStorage:
         """Method to delete class"""
         if (obj is None):
             pass
-        if (obj in FileStorage.__objects.values()
-                ):  # Returns a list of values in __object
+        if (obj in FileStorage.__objects.values()):  # values in __object
             key = obj.__class__.__name__ + "." + obj.id
             del (FileStorage.__objects[key])
 
