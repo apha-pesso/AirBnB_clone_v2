@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+"""DB_srorage class"""
+
 from os import getenv
 from sqlalchemy import create_engine
 from models.base_model import Base
